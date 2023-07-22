@@ -4,14 +4,19 @@ class player:
     def __init__(self,model):
         self.model = model
         self.history = []
-
-class Cheater(player):
+class Mirror(player):
+    def __init__(self,model):
+        super().__init__(model)
+        self.matches = 0
     def step(self):
-        return False
+        self.matches += 1
+        if not self.history: return True
+        elif self.history[-1]==True and self.matches%2==0: return False
+        elif self.history[-1]==True and self.matches%2!=0: return True
+        elif self.history[-1]==False and self.matches%2==0: return True
+        elif self.history[-1]==False and self.matches%2!=0: return False
 
-class Cooperator(player):
-    def step(self):
-        return True
+
 
 class Copycat(player):
     def step(self):
@@ -42,3 +47,10 @@ class Game(object):
 
         player2.history = []
         player1.history = []
+
+g = Game(matches=10)
+
+g.play(Mirror("Mirror"),Copycat("Copycat"))
+
+for i in g.registry:
+    print(i,g.registry[i])
