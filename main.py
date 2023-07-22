@@ -9,14 +9,15 @@ class player:
 class Mirror(player):
     def __init__(self,model):
         super().__init__(model)
-        self.matches = 0
+        self.matches = 0 # счетчик матчей
     def step(self):
-        self.matches += 1
+        #self.matches += 1 # можно раскомментить и закомментить счётчик вконце, чтобы посмотреть на другой результат 
         if not self.history: return True
         elif self.history[-1]==True and self.matches%2==0: return False
         elif self.history[-1]==True and self.matches%2!=0: return True
         elif self.history[-1]==False and self.matches%2==0: return True
         elif self.history[-1]==False and self.matches%2!=0: return False
+        self.matches += 1
 
 
 
