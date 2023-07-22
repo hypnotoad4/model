@@ -4,6 +4,8 @@ class player:
     def __init__(self,model):
         self.model = model
         self.history = []
+
+
 class Mirror(player):
     def __init__(self,model):
         super().__init__(model)
@@ -21,6 +23,14 @@ class Mirror(player):
 class Copycat(player):
     def step(self):
         return True if not self.history else self.history[-1]
+    
+class Cheater(player):
+    def step(self):
+        return False
+
+class Cooperator(player):
+    def step(self):
+        return True
 
 
 class Game(object):
@@ -48,9 +58,14 @@ class Game(object):
         player2.history = []
         player1.history = []
 
-g = Game(matches=10)
+g1 = Game(matches=1000)
+g1.play(Mirror("Mirror"),Copycat("Вражина"))
+for i in g1.registry: print(i,g1.registry[i])
 
-g.play(Mirror("Mirror"),Copycat("Copycat"))
+g2 = Game(matches=1000)
+g2.play(Mirror("Mirror"),Cheater("Вражина"))
+for i in g2.registry: print(i,g2.registry[i])
 
-for i in g.registry:
-    print(i,g.registry[i])
+g3 = Game(matches=1000)
+g3.play(Mirror("Mirror"),Cooperator("Вражина"))
+for i in g3.registry: print(i,g3.registry[i])
